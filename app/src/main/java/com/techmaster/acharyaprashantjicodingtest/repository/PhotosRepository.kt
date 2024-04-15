@@ -17,10 +17,10 @@ class PhotosRepository @Inject constructor(private val apiService: ApiService) {
     val photosResponseLiveData: LiveData<NetworkResult<Root>>
         get() = _photosResponseData
 
-    suspend fun getPhotos(currentPage: Int) {
+    suspend fun getPhotos() {
         try {
             _photosResponseData.postValue(NetworkResult.Loading())
-            val response = apiService.getPhotos(currentPage)
+            val response = apiService.getPhotos()
             handleResponse(response, 1)
         } catch (e: Exception) {
             _photosResponseData.postValue(NetworkResult.Error("Something Went Wrong"))

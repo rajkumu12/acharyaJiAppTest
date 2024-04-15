@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface ApiService {
     @GET("search/photos")
     suspend fun getPhotos(
-        @Query("page") currentPage: Int,
+        @Query("page") currentPage: Int=1,
         @Query("query") query: String = "office",
         @Query("client_id") clientId: String = BuildConfig.secretkey
     ): Response<Root>

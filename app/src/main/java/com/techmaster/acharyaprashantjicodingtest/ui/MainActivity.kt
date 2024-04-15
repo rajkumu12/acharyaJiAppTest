@@ -24,20 +24,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel.getPhotos()
         loadData()
-        binding.imageRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val layoutManager = recyclerView.layoutManager as GridLayoutManager
-                val visibleItemCount = layoutManager.childCount
-                val totalItemCount = layoutManager.itemCount
-                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-
-                if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
-                    viewModel.getPhotos()
-                }
-            }
-        })
-
     }
 
     private fun loadData() {
@@ -55,11 +41,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 is NetworkResult.Success -> {
-                    imagesList= (imagesList+it.data!!.results).toMutableList()
                     binding.imageRecyclerview.layoutManager =
                         GridLayoutManager(this@MainActivity, 2) // 2 columns in the grid
                     val adapter = ImagesAdapter(this@MainActivity)
-                    adapter.setsImagesList(imagesList)
+                    adapter.setsImagesList(it.data!!.results)
                     binding.imageRecyclerview.adapter = adapter
                 }
             }

@@ -6,6 +6,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.techmaster.acharyaprashantjicodingtest.R
 import com.techmaster.acharyaprashantjicodingtest.databinding.ImagesItemBinding
 import com.techmaster.acharyaprashantjicodingtest.utility.ImageLoaders
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +19,6 @@ class ImagesAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.Vi
     @SuppressLint("NotifyDataSetChanged")
     fun setsImagesList(imagesList: List<Results>) {
         this.imagesList = imagesList.toMutableList()
-        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -50,14 +50,14 @@ class MainViewHolder(val binding: ImagesItemBinding, val context: Context) : Rec
         val imageLoader = ImageLoaders(context, photos.urls.thumb) { bitmap ->
 
             if (bitmap != null) {
-                // Image loaded successfully
                 coroutineScope2.launch {
                     binding.images.setImageBitmap(bitmap)
                 }
             } else {
+                coroutineScope2.launch {
+                    binding.images.setImageResource(R.drawable.error)
+                }
 
-                // Error loading image
-                // Handle error (e.g., display a placeholder image)
             }
         }
         coroutineScope.launch {

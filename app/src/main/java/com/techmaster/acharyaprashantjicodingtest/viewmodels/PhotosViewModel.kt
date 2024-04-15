@@ -15,12 +15,10 @@ import javax.inject.Inject
 class PhotosViewModel @Inject constructor(private val photosRepository: PhotosRepository) : ViewModel() {
     val photosResponseLiveData: LiveData<NetworkResult<Root>>
     get() = photosRepository.photosResponseLiveData
-    private var currentPage = 1
     fun getPhotos() {
         viewModelScope.launch(Dispatchers.IO) {
 
-            photosRepository.getPhotos(currentPage)
-            currentPage++
+            photosRepository.getPhotos()
         }
     }
 }
